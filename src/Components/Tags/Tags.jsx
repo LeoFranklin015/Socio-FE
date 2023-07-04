@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ShareModal from "../ShareModal/ShareModal";
+
 import TrendCard from "../TrendCard/TrendCard";
 import "./Tags.css";
 const Tags = () => {
@@ -16,8 +17,7 @@ const Tags = () => {
       <button className="share-btn1" onClick={() => setModalopened(true)}>
         Share
       </button>
-      <ShareModal modalOpened={modalopened} setModalOpened={setModalopened} />
-
+      <ShareModal modelopen={modalopened} setModalopen={setModalopened} />
       <div className="UserName">
         <span style={{ fontWeight: "bold" }}>Leo Franklin</span>
         <span style={{ color: "gray" }}>@LeoFrank</span>
