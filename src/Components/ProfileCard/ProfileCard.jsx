@@ -3,6 +3,7 @@ import "./ProfileCard.css";
 import profile from "../../Assets/profile.jpeg";
 import cover from "../../Assets/cover.jpeg";
 const ProfileCard = () => {
+  const profilepage = true;
   return (
     <div className="ProfileCard">
       <div className="images">
@@ -26,13 +27,25 @@ const ProfileCard = () => {
             <span style={{ fontWeight: "bold" }}>300</span>
             <span style={{ color: "grey" }}>Following</span>
           </div>
+          {profilepage && (
+            <>
+              <div className="vr"></div>
+              <div className="follow">
+                <span style={{ fontWeight: "bold" }}>1</span>
+                <span style={{ color: "grey" }}>Posts</span>
+              </div>
+            </>
+          )}
         </div>
         <hr />
       </div>
-
-      <div className="MyProfile">
-        <span>My Profile</span>
-      </div>
+      {profilepage ? (
+        <></>
+      ) : (
+        <div className="MyProfile">
+          <span>My Profile</span>
+        </div>
+      )}
     </div>
   );
 };
