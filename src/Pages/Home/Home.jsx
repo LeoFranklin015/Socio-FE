@@ -7,9 +7,9 @@ import "./Home.css";
 const Home = () => {
   return (
     <div className="Home">
-      <Tags />
-      <PostSide />
       <Profile />
+      <PostSide />
+      <Tags />
     </div>
   );
 };
