@@ -5,7 +5,7 @@ import LogoSearch from "../LogoSearch/LogoSearch";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import "./Profile.css";
 const Profile = () => {
-  const profile = false;
+  const profile = true;
   return (
     <div className="Profile">
       <LogoSearch />

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./InfoCard.css";
 import pen from "../../Assets/pen-solid.svg";
+import ProfileModal from "./ProfileModal";
 const InfoCard = () => {
+  const [modalopen, setModalopen] = useState(false);
   return (
     <div className="InfoCard">
       <div className="infohead">
         <h4>Your Info</h4>
-        <img src={pen} alt="" width="18px" className="edit" />
+        <img
+          src={pen}
+          alt=""
+          width="18px"
+          className="edit"
+          onClick={() => setModalopen(true)}
+        />
+        <ProfileModal modelopen={modalopen} setModalopen={setModalopen} />
       </div>
       <div className="info">
         <span>
