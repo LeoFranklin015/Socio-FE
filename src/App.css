@@ -2,3 +2,7 @@
   display: grid;
   grid-column: auto;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
