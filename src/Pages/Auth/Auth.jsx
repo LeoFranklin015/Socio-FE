@@ -7,8 +7,9 @@ const Auth = () => {
   const dispatch = useDispatch();
   const [isSignedup, setIsSignedup] = useState(false);
   const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
+    email: "",
+    firstName: "",
+    lastName: "",
     username: "",
     password: "",
     confirmpass: "",
@@ -32,6 +33,7 @@ const Auth = () => {
   const resetForm = () => {
     setPass(true);
     setData({
+      email: "",
       firstname: "",
       lastname: "",
       username: "",
@@ -55,24 +57,36 @@ const Auth = () => {
           {isSignedup ? (
             <></>
           ) : (
-            <div>
-              <input
-                type="text"
-                placeholder="First Name"
-                className="infoInput"
-                name="firstname"
-                onChange={handleChange}
-                value={data.firstname}
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="infoInput"
-                name="lastname"
-                onChange={handleChange}
-                value={data.lastname}
-              />
-            </div>
+            <>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="infoInput"
+                  name="email"
+                  onChange={handleChange}
+                  value={data.email}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="infoInput"
+                  name="firstName"
+                  onChange={handleChange}
+                  value={data.firstName}
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="infoInput"
+                  name="lastName"
+                  onChange={handleChange}
+                  value={data.lastName}
+                />
+              </div>
+            </>
           )}
 
           <div>
