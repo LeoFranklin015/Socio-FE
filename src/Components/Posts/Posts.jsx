@@ -33,9 +33,7 @@ const Posts = () => {
   console.log(posts);
   return (
     <div className="Posts">
-      {posts.map((post) => (
-        <Post data={post} />
-      ))}
+      {loading ? "fetching..." : posts.map((post) => <Post data={post} />)}
     </div>
   );
 };
