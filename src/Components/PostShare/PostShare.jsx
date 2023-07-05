@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./PostShare.css";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadImage } from "../../action/uploadAction";
 import profile from "../../Assets/profile.jpeg";
 import photos from "../../Assets/image-gallery.png";
 import video from "../../Assets/video.png";
@@ -8,21 +10,48 @@ import location from "../../Assets/location.png";
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
+  const [desc, setDesc] = useState("");
   const imageRef = useRef();
-
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authReducer.authData);
   const onChangeImage = (e) => {
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
-      setImage({
-        image: URL.createObjectURL(img),
-      });
+      setImage(img);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newPost = {
+      userId: user.user._id,
+      desc: desc,
+    };
+
+    if (image) {
+      const data = new FormData();
+      const filename = Date.now() + image.name;
+      data.append("name", filename);
+      data.append("file", image);
+      newPost.image = filename;
+      console.log(newPost);
+      try {
+        dispatch(uploadImage(data));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
     <div className="PostShare">
       <img src={profile} alt="" className="profileimg" />
       <div className="text">
-        <input type="text" placeholder="Share about your experience " />
+        <input
+          type="text"
+          placeholder="Share about your experience "
+          onChange={(e) => setDesc(e.target.value)}
+        />
 
         <div className="postOptions">
           <div
@@ -41,7 +70,9 @@ const PostShare = () => {
             <img src={location} alt="" width="25px" />
             Location
           </div>
-          <button className="share-btn">Share</button>
+          <button className="share-btn" onClick={handleSubmit}>
+            Share
+          </button>
           <div style={{ display: "none" }}>
             <input
               type="file"
@@ -60,7 +91,11 @@ const PostShare = () => {
               onClick={() => setImage(null)}
               className="close"
             />
-            <img src={image.image} alt="" className="uploadImage" />
+            <img
+              src={URL.createObjectURL(image)}
+              alt=""
+              className="uploadImage"
+            />
           </div>
         )}
       </div>
