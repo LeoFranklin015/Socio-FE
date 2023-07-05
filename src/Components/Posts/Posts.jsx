@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Posts.css";
 import postPic1 from "../../Assets/img1.jpeg";
 import postPic2 from "../../Assets/bg.jpeg";
 import Post from "../Post/Post";
+import { useDispatch, useSelector } from "react-redux";
+import { getTimelinePost } from "../../action/postAction";
+
 const Posts = () => {
   const PostsData = [
     {
@@ -20,9 +23,17 @@ const Posts = () => {
       liked: false,
     },
   ];
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authReducer.authData);
+  const { posts, loading } = useSelector((state) => state.postReducer);
+
+  useEffect(() => {
+    dispatch(getTimelinePost(user.user._id));
+  }, [user, dispatch]);
+  console.log(posts);
   return (
     <div className="Posts">
-      {PostsData.map((post) => (
+      {posts.map((post) => (
         <Post data={post} />
       ))}
     </div>

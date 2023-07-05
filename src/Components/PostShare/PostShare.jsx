@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./PostShare.css";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadImage } from "../../action/uploadAction";
+import { uploadImage, uploadPost } from "../../action/uploadAction";
 import profile from "../../Assets/profile.jpeg";
 import photos from "../../Assets/image-gallery.png";
 import video from "../../Assets/video.png";
@@ -9,6 +9,7 @@ import close from "../../Assets/xmark-solid.svg";
 import location from "../../Assets/location.png";
 
 const PostShare = () => {
+  const loading = useSelector((state) => state.postReducer.uploading);
   const [image, setImage] = useState(null);
   const [desc, setDesc] = useState("");
   const imageRef = useRef();
@@ -21,6 +22,10 @@ const PostShare = () => {
     }
   };
 
+  const reset = () => {
+    setImage(null);
+    setDesc("");
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -41,6 +46,8 @@ const PostShare = () => {
       } catch (error) {
         console.log(error);
       }
+      dispatch(uploadPost(newPost));
+      reset();
     }
   };
   return (
@@ -70,8 +77,12 @@ const PostShare = () => {
             <img src={location} alt="" width="25px" />
             Location
           </div>
-          <button className="share-btn" onClick={handleSubmit}>
-            Share
+          <button
+            className="share-btn"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? "Uploading" : "Share"}
           </button>
           <div style={{ display: "none" }}>
             <input
