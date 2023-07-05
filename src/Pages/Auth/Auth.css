@@ -104,3 +104,8 @@
   background: transparent;
   border: 1px solid orange;
 }
+
+.share-btn:disabled {
+  background-color: silver;
+  pointer-events: none;
+}

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import LOGO from "../../Assets/icon.png";
 import "./Auth.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn, signUp } from "../../action/AuthAction.js";
 const Auth = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.authReducer.loading);
   const [isSignedup, setIsSignedup] = useState(false);
   const [data, setData] = useState({
     email: "",
@@ -146,8 +147,8 @@ const Auth = () => {
                 : "Already have an account. Login!"}
             </span>
           </div>
-          <button className="share-btn" type="submit">
-            {isSignedup ? "Login" : "Signup"}
+          <button className="share-btn" type="submit" disabled={loading}>
+            {loading ? "Loading... " : isSignedup ? "Login" : "Signup"}
           </button>
         </form>
       </div>
