@@ -81,3 +81,26 @@
   align-items: center;
   justify-content: center;
 }
+
+.share-btn {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: orange;
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  color: white;
+  transition: ease-in-out;
+  cursor: pointer;
+}
+
+.share-btn:hover {
+  color: orange;
+  background: transparent;
+  border: 1px solid orange;
+}
