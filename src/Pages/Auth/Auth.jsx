@@ -24,6 +24,17 @@ const Auth = () => {
     }
   };
 
+  const resetForm = () => {
+    setPass(true);
+    setData({
+      firstname: "",
+      lastname: "",
+      username: "",
+      password: "",
+      confirmpass: "",
+    });
+  };
+
   return (
     <div className="Auth">
       <div className="a-left">
@@ -46,6 +57,7 @@ const Auth = () => {
                 className="infoInput"
                 name="firstname"
                 onChange={handleChange}
+                value={data.firstname}
               />
               <input
                 type="text"
@@ -53,6 +65,7 @@ const Auth = () => {
                 className="infoInput"
                 name="lastname"
                 onChange={handleChange}
+                value={data.lastname}
               />
             </div>
           )}
@@ -64,6 +77,7 @@ const Auth = () => {
               name="username"
               placeholder="Usernames"
               onChange={handleChange}
+              value={data.username}
             />
           </div>
 
@@ -74,6 +88,7 @@ const Auth = () => {
               name="password"
               placeholder="Password"
               onChange={handleChange}
+              value={data.password}
             />
             {isSignedup ? (
               <></>
@@ -84,6 +99,7 @@ const Auth = () => {
                 name="confirmpass"
                 placeholder="Confirm Password"
                 onChange={handleChange}
+                value={data.confirmpass}
               />
             )}
           </div>
@@ -101,7 +117,10 @@ const Auth = () => {
           <div>
             <span
               style={{ fontSize: "12px", cursor: "pointer" }}
-              onClick={() => setIsSignedup(!isSignedup)}
+              onClick={() => {
+                setIsSignedup(!isSignedup);
+                resetForm();
+              }}
             >
               {isSignedup
                 ? "Dont have an account ? SignUp"
