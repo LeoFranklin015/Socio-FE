@@ -6,6 +6,7 @@ import defaultProfile from "../../Assets/profile.png";
 import cover from "../../Assets/cover.jpeg";
 const ProfileCard = ({ profilepage, setProfilePage }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
+  const posts = useSelector((state) => state.postReducer.posts);
   // const [profilepage, setProfilePage] = useState(false);
   const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
   return (
@@ -45,7 +46,9 @@ const ProfileCard = ({ profilepage, setProfilePage }) => {
             <>
               <div className="vr"></div>
               <div className="follow">
-                <span style={{ fontWeight: "bold" }}>1</span>
+                <span style={{ fontWeight: "bold" }}>
+                  {posts.filter((post) => post.userId === user._id).length}
+                </span>
                 <span style={{ color: "grey" }}>Posts</span>
               </div>
             </>
