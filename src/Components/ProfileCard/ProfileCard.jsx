@@ -1,70 +1,154 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+// import React, { useState } from "react";
+// import { useSelector } from "react-redux";
+// import "./ProfileCard.css";
+// import profile from "../../Assets/profile.jpeg";
+// import defaultProfile from "../../Assets/profile.png";
+// import cover from "../../Assets/cover.jpeg";
+// import { Link } from "react-router-dom";
+// const ProfileCard = ({ profilepage, setProfilePage }) => {
+//   const { user } = useSelector((state) => state.authReducer.authData);
+//   const posts = useSelector((state) => state.postReducer.posts);
+//   // const [profilepage, setProfilePage] = useState(false);
+//   const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
+//   return (
+//     <div className="ProfileCard">
+//       <div className="images">
+//         <img
+//           src={user.coverPicture ? Folder + user.coverPicture : cover}
+//           alt=""
+//           className="cover"
+//         />
+//         <img
+//           src={
+//             user.profilePicture ? Folder + user.profilePicture : defaultProfile
+//           }
+//           alt=""
+//           className="profilepic"
+//         />
+//       </div>
+
+//       <div className="ProfileName">
+//         <span style={{ fontWeight: "bold" }}>{user.username}</span>
+//         <span>{user.worksAt ? user.worksAt : "Write About yourself"}</span>
+//       </div>
+//       <div className="FollowStatus">
+//         <hr />
+//         <div className="Count">
+//           <div className="follow">
+//             <span style={{ fontWeight: "bold" }}>{user.followers.length}</span>
+//             <span style={{ color: "grey" }}>Followers</span>
+//           </div>
+//           <div className="vr"></div>
+//           <div className="follow">
+//             <span style={{ fontWeight: "bold" }}>{user.following.length}</span>
+//             <span style={{ color: "grey" }}>Following</span>
+//           </div>
+//           {profilepage && (
+//             <>
+//               <div className="vr"></div>
+//               <div className="follow">
+//                 <span style={{ fontWeight: "bold" }}>
+//                   {posts.filter((post) => post.userId === user._id).length}
+//                 </span>
+//                 <span style={{ color: "grey" }}>Posts</span>
+//               </div>
+//             </>
+//           )}
+//         </div>
+//         <hr />
+//       </div>
+//       {profilepage ? (
+//         <></>
+//       ) : (
+//         <div className="MyProfile" style={{ textDecoration: "none" }}>
+//           <Link to={`/user/${user._id}`}>
+//             <span onClick={() => setProfilePage(true)}>My Profile</span>
+//           </Link>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ProfileCard;
+
+import React from "react";
 import "./ProfileCard.css";
-import profile from "../../Assets/profile.jpeg";
-import defaultProfile from "../../Assets/profile.png";
-import cover from "../../Assets/cover.jpeg";
+// import Cover from "../../img/cover.jpg";
+// import Profile from "../../img/profileImg.jpg";
 import { Link } from "react-router-dom";
-const ProfileCard = ({ profilepage, setProfilePage }) => {
+import { useSelector } from "react-redux";
+const ProfileCard = ({ location }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const posts = useSelector((state) => state.postReducer.posts);
-  // const [profilepage, setProfilePage] = useState(false);
-  const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+
   return (
     <div className="ProfileCard">
-      <div className="images">
+      <div className="ProfileImages">
         <img
-          src={user.coverPicture ? Folder + user.coverPicture : cover}
-          alt=""
-          className="cover"
+          src={
+            user.coverPicture
+              ? serverPublic + user.coverPicture
+              : serverPublic + "defaultCover.jpg"
+          }
+          alt="CoverImage"
         />
         <img
           src={
-            user.profilePicture ? Folder + user.profilePicture : defaultProfile
+            user.profilePicture
+              ? serverPublic + user.profilePicture
+              : serverPublic + "defaultProfile.png"
           }
-          alt=""
-          className="profilepic"
+          alt="ProfileImage"
         />
       </div>
-
       <div className="ProfileName">
-        <span style={{ fontWeight: "bold" }}>{user.username}</span>
-        <span>{user.worksAt ? user.worksAt : "Write About yourself"}</span>
+        <span>
+          {user.firstname} {user.lastname}
+        </span>
+        <span>{user.worksAt ? user.worksAt : "Write about yourself"}</span>
       </div>
-      <div className="FollowStatus">
+
+      <div className="followStatus">
         <hr />
-        <div className="Count">
+        <div>
           <div className="follow">
-            <span style={{ fontWeight: "bold" }}>{user.followers.length}</span>
-            <span style={{ color: "grey" }}>Followers</span>
+            <span>{user.followers.length}</span>
+            <span>Followers</span>
           </div>
-          <div className="vr"></div>
+          <div className="vl"></div>
           <div className="follow">
-            <span style={{ fontWeight: "bold" }}>{user.following.length}</span>
-            <span style={{ color: "grey" }}>Following</span>
+            <span>{user.following.length}</span>
+            <span>Following</span>
           </div>
-          {profilepage && (
+          {/* for profilepage */}
+          {location === "profilePage" && (
             <>
-              <div className="vr"></div>
+              <div className="vl"></div>
               <div className="follow">
-                <span style={{ fontWeight: "bold" }}>
+                <span>
                   {posts.filter((post) => post.userId === user._id).length}
                 </span>
-                <span style={{ color: "grey" }}>Posts</span>
-              </div>
+                <span>Posts</span>
+              </div>{" "}
             </>
           )}
         </div>
         <hr />
       </div>
-      {profilepage ? (
-        <></>
+
+      {location === "profilePage" ? (
+        ""
       ) : (
-        <div className="MyProfile" style={{ textDecoration: "none" }}>
-          <Link to={`/user/${user._id}`}>
-            <span onClick={() => setProfilePage(true)}>My Profile</span>
+        <span>
+          <Link
+            to={`/profile/${user._id}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            My Profile
           </Link>
-        </div>
+        </span>
       )}
     </div>
   );
