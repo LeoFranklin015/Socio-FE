@@ -1,14 +1,28 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./ProfileCard.css";
 import profile from "../../Assets/profile.jpeg";
+import defaultProfile from "../../Assets/profile.png";
 import cover from "../../Assets/cover.jpeg";
 const ProfileCard = () => {
-  const profilepage = true;
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const profilepage = false;
+  const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
   return (
     <div className="ProfileCard">
       <div className="images">
-        <img src={cover} alt="" className="cover" />
-        <img src={profile} alt="" className="profilepic" />
+        <img
+          src={user.coverPicture ? Folder + user.coverPicture : cover}
+          alt=""
+          className="cover"
+        />
+        <img
+          src={
+            user.profilePicture ? Folder + user.profilePicture : defaultProfile
+          }
+          alt=""
+          className="profilepic"
+        />
       </div>
 
       <div className="ProfileName">

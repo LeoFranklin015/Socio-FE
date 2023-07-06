@@ -4,7 +4,7 @@ import PostShare from "../PostShare/PostShare";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import "./PostSide.css";
 const PostSide = () => {
-  const profile = true;
+  const profile = false;
   return (
     <div className="PostSide">
       {profile ? <ProfileCard /> : <></>}
