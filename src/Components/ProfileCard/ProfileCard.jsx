@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./ProfileCard.css";
 import profile from "../../Assets/profile.jpeg";
 import defaultProfile from "../../Assets/profile.png";
 import cover from "../../Assets/cover.jpeg";
-const ProfileCard = () => {
+const ProfileCard = ({ profilepage, setProfilePage }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
-  const profilepage = false;
+  // const [profilepage, setProfilePage] = useState(false);
   const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
   return (
     <div className="ProfileCard">
@@ -57,7 +57,7 @@ const ProfileCard = () => {
         <></>
       ) : (
         <div className="MyProfile">
-          <span>My Profile</span>
+          <span onClick={() => setProfilePage(true)}>My Profile</span>
         </div>
       )}
     </div>

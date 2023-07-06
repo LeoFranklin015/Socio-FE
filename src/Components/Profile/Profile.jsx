@@ -4,12 +4,18 @@ import InfoCard from "../InfoCard/InfoCard";
 import LogoSearch from "../LogoSearch/LogoSearch";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import "./Profile.css";
-const Profile = () => {
-  const profile = false;
+const Profile = ({ profilepage, setProfilePage }) => {
   return (
     <div className="Profile">
       <LogoSearch />
-      {profile ? <InfoCard /> : <ProfileCard />}
+      {profilepage ? (
+        <InfoCard />
+      ) : (
+        <ProfileCard
+          profilepage={profilepage}
+          setProfilePage={setProfilePage}
+        />
+      )}
       {/* <ProfileCard /> */}
       <FollowersCard />
     </div>
