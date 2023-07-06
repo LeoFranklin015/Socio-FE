@@ -6,6 +6,7 @@ import profile from "../../Assets/profile.jpeg";
 import photos from "../../Assets/image-gallery.png";
 import video from "../../Assets/video.png";
 import close from "../../Assets/xmark-solid.svg";
+import defaultProfile from "../../Assets/profile.png";
 import location from "../../Assets/location.png";
 
 const PostShare = () => {
@@ -50,9 +51,17 @@ const PostShare = () => {
       reset();
     }
   };
+
+  const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
   return (
     <div className="PostShare">
-      <img src={profile} alt="" className="profileimg" />
+      <img
+        src={
+          user.profilePicture ? Folder + user.profilePicture : defaultProfile
+        }
+        alt=""
+        className="profileimg"
+      />
       <div className="text">
         <input
           type="text"
