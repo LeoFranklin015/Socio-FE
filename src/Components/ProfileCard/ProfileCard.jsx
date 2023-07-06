@@ -4,6 +4,7 @@ import "./ProfileCard.css";
 import profile from "../../Assets/profile.jpeg";
 import defaultProfile from "../../Assets/profile.png";
 import cover from "../../Assets/cover.jpeg";
+import { Link } from "react-router-dom";
 const ProfileCard = ({ profilepage, setProfilePage }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const posts = useSelector((state) => state.postReducer.posts);
@@ -59,8 +60,10 @@ const ProfileCard = ({ profilepage, setProfilePage }) => {
       {profilepage ? (
         <></>
       ) : (
-        <div className="MyProfile">
-          <span onClick={() => setProfilePage(true)}>My Profile</span>
+        <div className="MyProfile" style={{ textDecoration: "none" }}>
+          <Link to={`/user/${user._id}`}>
+            <span onClick={() => setProfilePage(true)}>My Profile</span>
+          </Link>
         </div>
       )}
     </div>

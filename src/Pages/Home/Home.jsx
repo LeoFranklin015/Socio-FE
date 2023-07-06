@@ -4,8 +4,8 @@ import Profile from "../../Components/Profile/Profile";
 import Tags from "../../Components/Tags/Tags";
 import "./Home.css";
 
-const Home = () => {
-  const [profilepage, setProfilePage] = useState(false);
+const Home = ({ profilepage, setProfilePage }) => {
+  // const [profilepage, setProfilePage] = useState(false);
 
   return (
     <div className="Home">

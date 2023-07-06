@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./InfoCard.css";
 import pen from "../../Assets/pen-solid.svg";
 import ProfileModal from "./ProfileModal";
 const InfoCard = () => {
   const [modalopen, setModalopen] = useState(false);
+  const dispatch = useDispatch();
   return (
     <div className="InfoCard">
       <div className="infohead">
