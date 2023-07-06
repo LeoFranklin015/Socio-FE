@@ -26,19 +26,19 @@ const ProfileCard = () => {
       </div>
 
       <div className="ProfileName">
-        <span style={{ fontWeight: "bold" }}>Leo Franklin</span>
-        <span>Fullstack Developer</span>
+        <span style={{ fontWeight: "bold" }}>{user.username}</span>
+        <span>{user.worksAt ? user.worksAt : "Write About yourself"}</span>
       </div>
       <div className="FollowStatus">
         <hr />
         <div className="Count">
           <div className="follow">
-            <span style={{ fontWeight: "bold" }}>1000</span>
+            <span style={{ fontWeight: "bold" }}>{user.followers.length}</span>
             <span style={{ color: "grey" }}>Followers</span>
           </div>
           <div className="vr"></div>
           <div className="follow">
-            <span style={{ fontWeight: "bold" }}>300</span>
+            <span style={{ fontWeight: "bold" }}>{user.following.length}</span>
             <span style={{ color: "grey" }}>Following</span>
           </div>
           {profilepage && (
