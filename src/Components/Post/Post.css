@@ -5,9 +5,9 @@
   background-color: rgb(245, 244, 244);
   border-radius: 1rem;
   padding: 1 rem;
-}
+} */
 
-.Postimg {
+.Post > img {
   margin-top: 20px;
   width: 100%;
   height: fit-content;
@@ -15,16 +15,16 @@
 
   object-fit: contain;
   border-radius: 0.5rem;
-  background-color: grey;
+  background-color: var(--inputColor);
   align-items: center;
   justify-content: center;
 }
 
-.postReaction {
+.postReact {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-} */
+}
 
 .Post {
   display: flex;
@@ -35,7 +35,7 @@
   gap: 1rem;
 }
 
-.Post > img {
+/* .Post > img {
   width: 100%;
   max-height: 20rem;
   object-fit: cover;
@@ -46,4 +46,4 @@
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-}
+} */
