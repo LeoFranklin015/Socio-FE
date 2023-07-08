@@ -37,14 +37,14 @@
 import React, { useEffect, useState } from "react";
 import "./FollowersCard.css";
 import FollowersModal from "../FollowersModal/FollowersModal";
-import { getAllUser } from "../../api/UserRequests";
+import { getAllUser, searchUser } from "../../api/UserRequests";
 import User from "../User/User";
 import { useSelector } from "react-redux";
 const FollowersCard = ({ location }) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [persons, setPersons] = useState([]);
   const { user } = useSelector((state) => state.authReducer.authData);
-
+  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchPersons = async () => {
       const { data } = await getAllUser();
@@ -52,6 +52,21 @@ const FollowersCard = ({ location }) => {
     };
     fetchPersons();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchUserSearch = async () => {
+  //     const res = await searchUser();
+  //     setData(res);
+  //   };
+  //   fetchUserSearch();
+  // }, [query]);
+  // const filteredPersons = persons.filter((person) =>
+  //   person.firstname.toLowerCase().includes("R")
+
+  // const search = (data) => {
+  //   return data.filter((item) => item);
+  //   // .firstName.toLowerCase().includes(query));
+  // };
 
   return (
     <div className="FollowersCard">
