@@ -147,7 +147,11 @@ const Auth = () => {
                 : "Already have an account. Login!"}
             </span>
           </div>
-          <button className="share-btn" type="submit" disabled={loading}>
+          <button
+            className="button infoButton"
+            type="submit"
+            disabled={loading}
+          >
             {loading ? "Loading... " : isSignedup ? "Login" : "Signup"}
           </button>
         </form>

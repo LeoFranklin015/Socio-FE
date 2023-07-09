@@ -28,7 +28,8 @@ const SearchModal = ({ modalOpened, setModalOpened }) => {
         return users1.filter((user) =>
           keys.some(
             (key) =>
-              user["firstName"] && user[key].toLowerCase().includes(query)
+              user["firstName"] &&
+              user[key].toLowerCase().includes(query.toLowerCase())
           )
         );
       };
@@ -53,8 +54,14 @@ const SearchModal = ({ modalOpened, setModalOpened }) => {
     >
       <input
         type="text"
-        placeholder="Search .."
+        placeholder="Search User"
         onChange={(e) => setQuery(e.target.value)}
+        style={{
+          borderRadius: "5px",
+          backgroundColor: "rgba(40, 52, 62, 0.07)",
+          padding: "10px 20px",
+          fontSize: "12px",
+        }}
       />
       {data && data.map((user) => <User key={user.id} person={user} />)}
     </Modal>
