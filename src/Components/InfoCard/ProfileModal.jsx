@@ -68,7 +68,7 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
       }
     }
     dispatch(updateUser(param.id, UserData)).then(() => {
-      setLoading(true);
+      setLoading(false);
       setModalOpened(false);
     });
   };
