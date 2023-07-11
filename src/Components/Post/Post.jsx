@@ -68,7 +68,7 @@ const Post = ({ data }) => {
   };
   return (
     <div className="Post">
-      <img src={data.image ? data.image : ""} alt="" />
+      {data.image ? <img src={data.image} alt="" /> : <></>}
 
       <div className="postReact">
         <img

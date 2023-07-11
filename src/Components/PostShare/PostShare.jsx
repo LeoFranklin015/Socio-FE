@@ -14,9 +14,11 @@ const PostShare = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
   const loading = useSelector((state) => state.postReducer.uploading);
+
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
-  const desc = useRef();
+  const [desc, setDesc] = useState("");
+
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
   // handle Image Change
@@ -40,11 +42,12 @@ const PostShare = () => {
   // handle post upload
   const handleUpload = async (e) => {
     e.preventDefault();
+    console.log(loading);
 
     //post data
     const newPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc: desc,
     };
 
     // if there is an image with post
@@ -72,15 +75,19 @@ const PostShare = () => {
         console.log(error);
       }
     }
-    dispatch(uploadPost(newPost));
-    resetShare();
+    if (image || video || desc) {
+      dispatch(uploadPost(newPost));
+      resetShare();
+    } else {
+      alert("Enter a image or video or text to share....");
+    }
   };
 
   // Reset Post Share
   const resetShare = () => {
     setImage(null);
     setVideo(null);
-    desc.current.value = "";
+    setDesc("");
   };
   return (
     <div className="PostShare">
@@ -97,7 +104,7 @@ const PostShare = () => {
           type="text"
           placeholder="What's happening?"
           required
-          ref={desc}
+          onChange={(e) => setDesc(e.target.value)}
         />
         <div className="postOptions">
           <div
