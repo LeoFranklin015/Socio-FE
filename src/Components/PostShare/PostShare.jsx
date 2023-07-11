@@ -134,6 +134,7 @@ import { UilSchedule } from "@iconscout/react-unicons";
 import { UilTimes } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage, uploadPost } from "../../actions/UploadAction";
+import Axios from "axios";
 
 const PostShare = () => {
   const dispatch = useDispatch();
@@ -165,16 +166,18 @@ const PostShare = () => {
 
     // if there is an image with post
     if (image) {
-      const data = new FormData();
-      const fileName = Date.now() + image.name;
-      data.append("name", fileName);
-      data.append("file", image);
-      newPost.image = fileName;
-      console.log(newPost);
+      const formdata = new FormData();
+      formdata.append("file", image);
+      formdata.append("upload_preset", "user_posts");
       try {
-        dispatch(uploadImage(data));
-      } catch (err) {
-        console.log(err);
+        const response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
+          formdata
+        );
+        newPost.image = response.data.url;
+        console.log(response.data.url);
+      } catch (error) {
+        console.log(error);
       }
     }
     dispatch(uploadPost(newPost));
