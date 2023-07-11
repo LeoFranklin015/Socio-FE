@@ -15,3 +15,6 @@ API.interceptors.request.use((req) => {
 export const getTimelinePosts = (id) => API.get(`/post/${id}/timeline`);
 export const likePost = (id, userId) =>
   API.patch(`post/${id}/like`, { userId: userId });
+
+export const postcloud = (data) =>
+  axios.post("https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload", data);

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadImage } from "../../actions/UploadAction";
 import { updateUser } from "../../actions/UserAction";
+import { postcloud } from "../../api/PostRequests";
 
 const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
   const navigate = useNavigate();
@@ -39,12 +40,9 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
     if (image) {
       const formdata = new FormData();
       formdata.append("file", image);
-      formdata.append("upload_preset", "pa2gpksg");
+      formdata.append("upload_preset", "user_profile");
       try {
-        const response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
-          formdata
-        );
+        const response = await postcloud(formdata);
         UserData.profilePicture = response.data.url;
         console.log(response.data.url);
         setModalOpened(false);
@@ -56,13 +54,11 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
       const data = new FormData();
 
       data.append("file", coverImage);
-      data.append("upload_preset", "pa2gpksg");
+      data.append("upload_preset", "user_cover");
 
       try {
-        const response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
-          data
-        );
+        const response = await postcloud(data);
+
         UserData.coverPicture = response.data.url;
         console.log(response.data.url);
         setModalOpened(false);

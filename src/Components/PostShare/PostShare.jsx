@@ -135,6 +135,7 @@ import { UilTimes } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage, uploadPost } from "../../actions/UploadAction";
 import Axios from "axios";
+import { postcloud } from "../../api/PostRequests";
 
 const PostShare = () => {
   const dispatch = useDispatch();
@@ -170,10 +171,7 @@ const PostShare = () => {
       formdata.append("file", image);
       formdata.append("upload_preset", "user_posts");
       try {
-        const response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
-          formdata
-        );
+        const response = await postcloud(formdata);
         newPost.image = response.data.url;
         console.log(response.data.url);
       } catch (error) {
