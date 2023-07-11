@@ -1,130 +1,3 @@
-// import React, { useState, useRef } from "react";
-// import "./PostShare.css";
-// import { useDispatch, useSelector } from "react-redux";
-// import { uploadImage, uploadPost } from "../../action/uploadAction";
-// import profile from "../../Assets/profile.jpeg";
-// import photos from "../../Assets/image-gallery.png";
-// import video from "../../Assets/video.png";
-// import close from "../../Assets/xmark-solid.svg";
-// import defaultProfile from "../../Assets/profile.png";
-// import location from "../../Assets/location.png";
-
-// const PostShare = () => {
-//   const loading = useSelector((state) => state.postReducer.uploading);
-//   const [image, setImage] = useState(null);
-//   const [desc, setDesc] = useState("");
-//   const imageRef = useRef();
-//   const dispatch = useDispatch();
-//   const user = useSelector((state) => state.authReducer.authData);
-//   const onChangeImage = (e) => {
-//     if (e.target.files && e.target.files[0]) {
-//       let img = e.target.files[0];
-//       setImage(img);
-//     }
-//   };
-
-//   const reset = () => {
-//     setImage(null);
-//     setDesc("");
-//   };
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     const newPost = {
-//       userId: user.user._id,
-//       desc: desc,
-//     };
-
-//     if (image) {
-//       const data = new FormData();
-//       const filename = Date.now() + image.name;
-//       data.append("name", filename);
-//       data.append("file", image);
-//       newPost.image = filename;
-//       console.log(newPost);
-//       try {
-//         dispatch(uploadImage(data));
-//       } catch (error) {
-//         console.log(error);
-//       }
-//       dispatch(uploadPost(newPost));
-//       reset();
-//     }
-//   };
-
-//   const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
-//   return (
-//     <div className="PostShare">
-//       <img
-//         src={
-//           user.profilePicture ? Folder + user.profilePicture : defaultProfile
-//         }
-//         alt=""
-//         className="profileimg"
-//       />
-//       <div className="text">
-//         <input
-//           type="text"
-//           placeholder="Share about your experience "
-//           onChange={(e) => setDesc(e.target.value)}
-//         />
-
-//         <div className="postOptions">
-//           <div
-//             className="option"
-//             style={{ color: "red" }}
-//             onClick={() => imageRef.current.click()}
-//           >
-//             <img src={photos} alt="" width="25px" />
-//             Photo
-//           </div>
-//           <div className="option">
-//             <img src={video} alt="" width="25px" />
-//             Video
-//           </div>
-//           <div className="option">
-//             <img src={location} alt="" width="25px" />
-//             Location
-//           </div>
-//           <button
-//             className="share-btn"
-//             onClick={handleSubmit}
-//             disabled={loading}
-//           >
-//             {loading ? "Uploading" : "Share"}
-//           </button>
-//           <div style={{ display: "none" }}>
-//             <input
-//               type="file"
-//               name="myImage"
-//               ref={imageRef}
-//               onChange={onChangeImage}
-//             />
-//           </div>
-//         </div>
-//         {image && (
-//           <div className="PreviewImage">
-//             <img
-//               src={close}
-//               alt=""
-//               width="18px"
-//               onClick={() => setImage(null)}
-//               className="close"
-//             />
-//             <img
-//               src={URL.createObjectURL(image)}
-//               alt=""
-//               className="uploadImage"
-//             />
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PostShare;
-
 import React, { useState, useRef } from "react";
 import "./PostShare.css";
 import { UilScenery } from "@iconscout/react-unicons";
@@ -133,15 +6,16 @@ import { UilLocationPoint } from "@iconscout/react-unicons";
 import { UilSchedule } from "@iconscout/react-unicons";
 import { UilTimes } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadImage, uploadPost } from "../../actions/UploadAction";
-import Axios from "axios";
-import { postcloud } from "../../api/PostRequests";
+import { uploadPost } from "../../actions/UploadAction";
+
+import { postcloud, postvideocloud } from "../../api/PostRequests";
 
 const PostShare = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
   const loading = useSelector((state) => state.postReducer.uploading);
   const [image, setImage] = useState(null);
+  const [video, setVideo] = useState(null);
   const desc = useRef();
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -152,8 +26,16 @@ const PostShare = () => {
       setImage(img);
     }
   };
+  //handle video change
+  const onVideoChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let vid = event.target.files[0];
+      setVideo(vid);
+    }
+  };
 
   const imageRef = useRef();
+  const videoRef = useRef();
 
   // handle post upload
   const handleUpload = async (e) => {
@@ -178,6 +60,18 @@ const PostShare = () => {
         console.log(error);
       }
     }
+    if (video) {
+      const formdata = new FormData();
+      formdata.append("file", video);
+      formdata.append("upload_preset", "user_posts");
+      try {
+        const response = await postvideocloud(formdata);
+        newPost.image = response.data.url;
+        console.log(response.data.url);
+      } catch (error) {
+        console.log(error);
+      }
+    }
     dispatch(uploadPost(newPost));
     resetShare();
   };
@@ -185,6 +79,7 @@ const PostShare = () => {
   // Reset Post Share
   const resetShare = () => {
     setImage(null);
+    setVideo(null);
     desc.current.value = "";
   };
   return (
@@ -192,7 +87,7 @@ const PostShare = () => {
       <img
         src={
           user.profilePicture
-            ? serverPublic + user.profilePicture
+            ? user.profilePicture
             : serverPublic + "defaultProfile.png"
         }
         alt="Profile"
@@ -214,7 +109,11 @@ const PostShare = () => {
             Photo
           </div>
 
-          <div className="option" style={{ color: "var(--video)" }}>
+          <div
+            className="option"
+            style={{ color: "var(--video)" }}
+            onClick={() => videoRef.current.click()}
+          >
             <UilPlayCircle />
             Video
           </div>
@@ -237,12 +136,37 @@ const PostShare = () => {
           <div style={{ display: "none" }}>
             <input type="file" ref={imageRef} onChange={onImageChange} />
           </div>
+          <div style={{ display: "none" }}>
+            <input type="file" ref={videoRef} onChange={onVideoChange} />
+          </div>
         </div>
 
         {image && (
           <div className="previewImage">
-            <UilTimes onClick={() => setImage(null)} />
+            <UilTimes
+              onClick={() => setImage(null)}
+              style={{
+                color: "black",
+                padding: "2px",
+                backgroundColor: "white",
+                borderRadius: "50%",
+              }}
+            />
             <img src={URL.createObjectURL(image)} alt="preview" />
+          </div>
+        )}
+        {video && (
+          <div className="previewImage">
+            <UilTimes
+              onClick={() => setVideo(null)}
+              style={{
+                color: "red",
+                padding: "2px",
+                backgroundColor: "white",
+                borderRadius: "50%",
+              }}
+            />
+            <img src={URL.createObjectURL(video)} alt="preview" />
           </div>
         )}
       </div>
