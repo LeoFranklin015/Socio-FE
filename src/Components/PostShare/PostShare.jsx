@@ -13,11 +13,12 @@ import { postcloud, postvideocloud } from "../../api/PostRequests";
 const PostShare = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
-  const loading = useSelector((state) => state.postReducer.uploading);
+  // const loading = useSelector((state) => state.postReducer.loading);
 
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
   const [desc, setDesc] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -43,7 +44,7 @@ const PostShare = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
     console.log(loading);
-
+    setLoading(true);
     //post data
     const newPost = {
       userId: user._id,
@@ -69,17 +70,20 @@ const PostShare = () => {
       formdata.append("upload_preset", "user_posts");
       try {
         const response = await postvideocloud(formdata);
-        newPost.image = response.data.url;
+        newPost.video = response.data.url;
         console.log(response.data.url);
       } catch (error) {
         console.log(error);
       }
     }
     if (image || video || desc) {
-      dispatch(uploadPost(newPost));
-      resetShare();
+      dispatch(uploadPost(newPost)).then(() => {
+        setLoading(false); // Set loading state to false after successful dispatch
+        resetShare();
+      });
     } else {
       alert("Enter a image or video or text to share....");
+      setLoading(false);
     }
   };
 
@@ -173,7 +177,7 @@ const PostShare = () => {
                 borderRadius: "50%",
               }}
             />
-            <img src={URL.createObjectURL(video)} alt="preview" />
+            <video src={URL.createObjectURL(video)} alt="preview" />
           </div>
         )}
       </div>

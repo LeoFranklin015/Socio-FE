@@ -16,7 +16,7 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
   const [coverImage, setCoverImage] = useState(null);
   const dispatch = useDispatch();
   const param = useParams();
-  const [img, setimg] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // const { user } = useSelector((state) => state.authReducer.authData);
   const handleChange = (e) => {
@@ -36,6 +36,7 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
   // form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let UserData = formData;
     if (image) {
       const formdata = new FormData();
@@ -66,8 +67,10 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
         console.log(error);
       }
     }
-    dispatch(updateUser(param.id, UserData));
-    setModalOpened(false);
+    dispatch(updateUser(param.id, UserData)).then(() => {
+      setLoading(true);
+      setModalOpened(false);
+    });
   };
 
   return (
@@ -158,8 +161,8 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
           <input type="file" name="coverImage" onChange={onImageChange} />
         </div>
 
-        <button className="button infoButton" type="submit">
-          Update
+        <button className="button infoButton" type="submit" disabled={loading}>
+          {loading ? "Updating..." : "Update"}
         </button>
       </form>
     </Modal>
