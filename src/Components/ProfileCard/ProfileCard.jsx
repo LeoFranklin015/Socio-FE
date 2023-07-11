@@ -89,7 +89,7 @@ const ProfileCard = ({ location }) => {
         <img
           src={
             user.coverPicture
-              ? serverPublic + user.coverPicture
+              ? user.coverPicture
               : serverPublic + "defaultCover.jpg"
           }
           alt="CoverImage"
@@ -97,7 +97,7 @@ const ProfileCard = ({ location }) => {
         <img
           src={
             user.profilePicture
-              ? serverPublic + user.profilePicture
+              ? user.profilePicture
               : serverPublic + "defaultProfile.png"
           }
           alt="ProfileImage"

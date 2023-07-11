@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { Modal, useMantineTheme } from "@mantine/core";
-
+import Axios from "axios";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { uploadImage } from "../../actions/UploadAction";
 import { updateUser } from "../../actions/UserAction";
 
 const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
+  const navigate = useNavigate();
   const theme = useMantineTheme();
   const { password, ...other } = data;
   const [formData, setFormData] = useState(other);
-  const [profileImage, setProfileImage] = useState(null);
+  const [image, setProfileImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const dispatch = useDispatch();
   const param = useParams();
+  const [img, setimg] = useState(null);
 
   // const { user } = useSelector((state) => state.authReducer.authData);
   const handleChange = (e) => {
@@ -22,39 +24,50 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      event.target.name === "profileImage"
-        ? setProfileImage(img)
-        : setCoverImage(img);
+      // let img = event.target.files[0];
+      const img = event.target.files[0];
+
+      event.target.name === "image" ? setProfileImage(img) : setCoverImage(img);
+      console.log(img);
     }
   };
 
   // form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let UserData = formData;
-    if (profileImage) {
-      const data = new FormData();
-      const fileName = Date.now() + profileImage.name;
-      data.append("name", fileName);
-      data.append("file", profileImage);
-      UserData.profilePicture = fileName;
+    if (image) {
+      const formdata = new FormData();
+      formdata.append("file", image);
+      formdata.append("upload_preset", "pa2gpksg");
       try {
-        dispatch(uploadImage(data));
-      } catch (err) {
-        console.log(err);
+        const response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
+          formdata
+        );
+        UserData.profilePicture = response.data.url;
+        console.log(response.data.url);
+        setModalOpened(false);
+      } catch (error) {
+        console.log(error);
       }
     }
     if (coverImage) {
       const data = new FormData();
-      const fileName = Date.now() + coverImage.name;
-      data.append("name", fileName);
+
       data.append("file", coverImage);
-      UserData.coverPicture = fileName;
+      data.append("upload_preset", "pa2gpksg");
+
       try {
-        dispatch(uploadImage(data));
-      } catch (err) {
-        console.log(err);
+        const response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/djl0e0ryv/image/upload",
+          data
+        );
+        UserData.coverPicture = response.data.url;
+        console.log(response.data.url);
+        setModalOpened(false);
+      } catch (error) {
+        console.log(error);
       }
     }
     dispatch(updateUser(param.id, UserData));
@@ -138,7 +151,13 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
 
         <div>
           Profile image
-          <input type="file" name="profileImage" onChange={onImageChange} />
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => {
+              onImageChange(e);
+            }}
+          />
           Cover image
           <input type="file" name="coverImage" onChange={onImageChange} />
         </div>
