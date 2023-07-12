@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./PostShare.css";
 import { UilScenery } from "@iconscout/react-unicons";
 import { UilPlayCircle } from "@iconscout/react-unicons";
@@ -14,6 +14,16 @@ const PostShare = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
   // const loading = useSelector((state) => state.postReducer.loading);
+
+  const [textareaHeight, setTextareaHeight] = useState("auto");
+
+  const handleInputChange = (e) => {
+    setDesc(e.target.value);
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    const newHeight = textarea.scrollHeight + "px";
+    setTextareaHeight(newHeight);
+  };
 
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
@@ -36,6 +46,7 @@ const PostShare = () => {
       setVideo(vid);
     }
   };
+  //
 
   const imageRef = useRef();
   const videoRef = useRef();
@@ -104,11 +115,11 @@ const PostShare = () => {
         alt="Profile"
       />
       <div>
-        <input
-          type="text"
+        <textarea
+          value={desc}
+          onChange={handleInputChange}
+          style={{ height: textareaHeight }}
           placeholder="What's happening?"
-          required
-          onChange={(e) => setDesc(e.target.value)}
         />
         <div className="postOptions">
           <div
@@ -132,6 +143,7 @@ const PostShare = () => {
             <UilLocationPoint />
             Location
           </div>
+
           <div className="option" style={{ color: "var(--shedule)" }}>
             <UilSchedule />
             Shedule

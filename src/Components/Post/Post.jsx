@@ -63,6 +63,9 @@ const Post = ({ data }) => {
   const [liked, setLiked] = useState(data.likes.includes(user._id));
   const [likes, setLikes] = useState(data.likes.length);
 
+  ////
+
+  ////
   const handleLike = () => {
     likePost(data._id, user._id);
     setLiked((prev) => !prev);
