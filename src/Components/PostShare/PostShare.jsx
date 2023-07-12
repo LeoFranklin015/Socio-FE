@@ -103,6 +103,7 @@ const PostShare = () => {
     setImage(null);
     setVideo(null);
     setDesc("");
+    setTextareaHeight("auto");
   };
   return (
     <div className="PostShare">

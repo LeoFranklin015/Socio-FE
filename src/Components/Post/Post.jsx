@@ -78,7 +78,7 @@ const Post = ({ data }) => {
       ) : data.video ? (
         <ReactPlayer url={data.video} controls={true} />
       ) : (
-        <h5>{data.desc}</h5>
+        <h5 style={{ whiteSpace: "pre-wrap" }}>{data.desc}</h5>
       )}
 
       <div className="postReact">
